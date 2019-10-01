@@ -1,9 +1,14 @@
+/**
+* Assignment 3
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.lang.Math;
-
 
 /**
    The Clock class describes a class defined by its centre and radius. 
@@ -82,12 +87,7 @@ public class Clock
    public void draw(Graphics2D g2, Color color)
    {
 	   Ellipse2D.Double c= new Ellipse2D.Double(centre.getX()-radius,centre.getY()-radius,2*radius,2*radius);
-      //g2.setStroke(new BasicStroke(5));
       g2.setColor(color);
-      if (radius == 180)
-      {
-         g2.draw(new Line2D.Double(centre.getX() + 100, centre.getY() + 100, 200 + 170 * Math.cos(Math.toRadians(90)), 200 + 170 * Math.sin(Math.toRadians(90))));
-      }
       g2.draw(c);
       g2.fill(c);
    }

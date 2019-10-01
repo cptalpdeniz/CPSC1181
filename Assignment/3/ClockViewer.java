@@ -1,3 +1,9 @@
+/**
+* Assignment 3
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
 import javax.swing.JFrame;
 import java.awt.Color;
 public class ClockViewer
@@ -16,6 +22,5 @@ public class ClockViewer
       frame.add(component);
 
       frame.setVisible(true);
-
    }
 }
