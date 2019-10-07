@@ -15,8 +15,8 @@ public class Shape2 extends Shape1
 		// create and draw a vertical ellipse, and then invoke the superclass
 		// draw(...) method to draw the horizontal ellipse.
 		g2.setColor(super.getColor());
-		var rad = super.getPositionInfo(3);
-		Ellipse2D.Double ellipse = new Ellipse2D.Double(super.getPositionInfo(1) - rad, super.getPositionInfo(2) - 2 * rad, 2*rad, 4*rad);
+		var rad = super.getPositionInfo(2);
+		Ellipse2D.Double ellipse = new Ellipse2D.Double(super.getPositionInfo(0) - rad, super.getPositionInfo(1) - 2 * rad, 2*rad, 4*rad);
 		g2.draw(ellipse);
 		g2.fill(ellipse);
 		super.draw(g2);

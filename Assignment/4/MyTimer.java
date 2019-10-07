@@ -23,9 +23,9 @@ public class MyTimer extends JComponent
 		{
 			var x = rand.nextInt(1000);
 			var y = rand.nextInt(700);
-			var r = rand.nextInt((29 - 11) + 1) + 11;
+			var r = rand.nextInt((30 - 10) + 1) + 10;
 			var d = rand.nextInt(4);
-			var v = rand.nextInt((9-2) + 1) + 2;
+			var v = rand.nextInt((10 - 1) + 1) + 1;
 			shapes.add(new Shape3Animated(x,y,r,d,v));
 		}
 		startTimer();
@@ -46,10 +46,10 @@ public class MyTimer extends JComponent
 				{
 					t.stop();
 				}
-				// for (Shape3Animated shape : shapes) 
-				// {
-				// 	shape.move();
-				// }
+				for (Shape3Animated shape : shapes) 
+				{
+					shape.move();
+				}
 				repaint();
 			}
 		}
