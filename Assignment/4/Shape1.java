@@ -4,14 +4,14 @@ import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 public class Shape1 {
-	private double x, y, r;
+	protected Vector2d position;
+	private double r;
 	private Color col;
 	// add constructor, and required methods.
 
 	public Shape1(double x, double y, double r)
 	{
-		this.x = x;
-		this.y = y;
+		this.position = new Vector2d(x,y);
 		this.r = r;
 		
 		Random rand = new Random();
@@ -25,7 +25,7 @@ public class Shape1 {
 	{
 		// create a horizontal ellipse and then draw it
 		g2.setColor(col);
-		Ellipse2D.Double ellipse = new Ellipse2D.Double(x - 2 * r, y - r, 4*r, 2*r);
+		Ellipse2D.Double ellipse = new Ellipse2D.Double(position.getPositionInfo(0) - 2 * r, getPositionInfo(1) - r, 4*r, 2*r);
 		g2.draw(ellipse);
 		g2.fill(ellipse);
 	}
@@ -35,9 +35,9 @@ public class Shape1 {
 		switch (option)
 		{
 			case 0:
-				return x;
+				return position.getPositionInfo(0);
 			case 1:
-				return y;
+				return position.getPositionInfo(1);
 			case 2:
 				return r;
 		}
@@ -54,10 +54,10 @@ public class Shape1 {
 		switch (option)
 		{
 			case 0: //set x
-				x = value;
+				position.setPositionInfo(0, value);
 				break;
 			case 1:
-				y = value;
+				position.setPositionInfo(1, value);
 				break;
 			case 2:
 				r = value;

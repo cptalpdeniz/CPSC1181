@@ -13,7 +13,7 @@ public class MyTimer extends JComponent
 {
 	private int counter;
 	private Timer t;
-	public ArrayList<Shape3Animated> shapes;
+	public static ArrayList<Shape3Animated> shapes;
 	public MyTimer()
 	{
 		counter = 0;
@@ -24,7 +24,7 @@ public class MyTimer extends JComponent
 			var x = rand.nextInt(1000);
 			var y = rand.nextInt(700);
 			var r = rand.nextInt((30 - 10) + 1) + 10;
-			var d = rand.nextInt(4);
+			var d = rand.nextInt(360);
 			var v = rand.nextInt((10 - 1) + 1) + 1;
 			shapes.add(new Shape3Animated(x,y,r,d,v));
 		}
@@ -46,9 +46,9 @@ public class MyTimer extends JComponent
 				{
 					t.stop();
 				}
-				for (Shape3Animated shape : shapes) 
+				for (int i = 0; i < 15; i++)	
 				{
-					shape.move();
+					shapes.get(i).move(i);
 				}
 				repaint();
 			}
