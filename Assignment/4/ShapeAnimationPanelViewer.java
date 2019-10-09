@@ -1,7 +1,7 @@
 import javax.swing.JFrame;
 
 
-public class MyTimerViewer
+public class ShapeAnimationPanelViewer
 {
 	public static void main(String[] args)
 	{

@@ -1,14 +1,36 @@
-public class Vector2d 
+/**
+* Assignment 4
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
+
+	/**
+	* 
+	*/
+	public class Vector2d 
 {
+	/**
+	* Vector2d class represents the 2-directional Vector 
+	* @param x represents x value of the vector [private]
+	* @param y represents the y value of the vector [private]
+	*/
 	private double x;
 	private double y;
 
+	
+	/**
+	* Default constructor for Vector 2D
+	*/
 	public Vector2d(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	* Getter for the x and y values
+	*/
 	public double getPositionInfo(int option)
 	{
 		switch (option)
@@ -21,6 +43,9 @@ public class Vector2d
 		return 0;
 	}
 
+	/**
+	* Setter for the x, y values
+	*/
 	public void setPositionInfo(int option, double value)
 	{
 		switch (option)
@@ -34,28 +59,47 @@ public class Vector2d
 		}
 	}
 
+	/**
+	* set() method for setting both x and y at the same time
+	*/
 	public void set(double x, double y)
 	{
 		this.x = x;
 		this.y = y;
 	}
 
+
+	/**
+	* Dot product calculation
+	*/
 	public double dot(Vector2d v2)
 	{
 		return x * v2.getPositionInfo(0) + y * v2.getPositionInfo(1);
 	}
 
+	
+	/**
+	* @return length of the Vector
+	*/
 	public double getLength()
 	{
 		return (double)Math.sqrt(x * x + y * y);
 	}
 
+	
+	/**
+	* @return distance between 2 vectors
+	*/
 	public double getDistance(Vector2d v2)
 	{
 		return (double) Math.sqrt((v2.getPositionInfo(0) - x) * (v2.getPositionInfo(0) - x) + (v2.getPositionInfo(1) - y) * (v2.getPositionInfo(1) - getPositionInfo(1)));
 	}
 
 
+	
+	/**
+	* @return sum of 2 Vectors
+	*/
 	public Vector2d add(Vector2d v2)
 	{
 		Vector2d result = new Vector2d(0,0);
@@ -64,6 +108,10 @@ public class Vector2d
 		return result;
 	}
 
+	
+	/**
+	* @return subtracts the given vector from "this"
+	*/
 	public Vector2d subtract(Vector2d v2)
 	{
 		Vector2d result = new Vector2d(0, 0);
@@ -72,6 +120,10 @@ public class Vector2d
 		return result;
 	}
 
+	
+	/**
+	* @return multiplies two vectors
+	*/
 	public Vector2d multiply(double scaleFactor)
 	{
 		Vector2d result = new Vector2d(0, 0);
@@ -80,6 +132,10 @@ public class Vector2d
 		return result;
 	}
 
+	
+	/**
+	* Changes the vector into a unit vector
+	*/
 	public Vector2d normalize()
 	{
 		double len = getLength();
@@ -97,10 +153,12 @@ public class Vector2d
 		return this;
 	}
 
+	
+	/**
+	* @return Returns the vector as a string
+	*/
 	public String toString()
 	{
-		return "X: " + x + " Y: " + getPositionInfo(1);
+		return "X: " + getPositionInfo(0) + " Y: " + getPositionInfo(1);
 	}
-
-
 }

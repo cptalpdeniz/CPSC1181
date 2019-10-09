@@ -1,3 +1,9 @@
+/**
+* Assignment 4
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,15 +15,18 @@ import javax.swing.Timer;
 import java.util.Random;
 import java.util.ArrayList;
 
-public class MyTimer extends JComponent
+public class ShapeAnimationPanel extends JComponent
 {
-	private int counter;
+	/**
+	* ShapeAnimationPanel is the main panel where Shapes are created, animated and drawn. 
+	* @param t Timer class instance variable [private]
+	* @param shapes ArrayList<Shape3Animated> 
+	*/
 	private Timer t;
 	public static ArrayList<Shape3Animated> shapes;
-	public MyTimer()
+	public ShapeAnimationPanel()
 	{
-		counter = 0;
-		Random rand = new Random();
+		Random rand = new Random(); //creating random instance for randomizing: x, y, r, d, v
 		shapes = new ArrayList<Shape3Animated>();
 		for (int i = 0; i < 15 ; i++) 
 		{
@@ -28,12 +37,13 @@ public class MyTimer extends JComponent
 			var v = rand.nextInt((10 - 1) + 1) + 1;
 			shapes.add(new Shape3Animated(x,y,r,d,v));
 		}
+		//calling for timer method to start
 		startTimer();
 	}
 	
 
-	/**
-	Starts the timer 
+	/*
+	This implementation is wrong. Since ActionEvent is listening to any differences in values between frames and there are so many changes happening at the same time, some calculations are not executed. Because of this, some shapes stop moving after collision and when the calculations are done, start moving again.
 	*/
 	private void startTimer()
 	{
@@ -41,11 +51,6 @@ public class MyTimer extends JComponent
 		{
 			public void actionPerformed(ActionEvent event)
 			{
-				counter++;
-				if (counter >=3000)
-				{
-					t.stop();
-				}
 				for (int i = 0; i < 15; i++)	
 				{
 					shapes.get(i).move(i);
@@ -57,9 +62,9 @@ public class MyTimer extends JComponent
 		t = new Timer(1000 /* 1000 milliSecond*/, new TimerListener());
 		t.start(); 
 	}
-	
+
 	/**
-	Disply the time
+	Draws the shapes using Graphics2D class
 	*/
 	public void paintComponent(Graphics g)
 	{

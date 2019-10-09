@@ -1,13 +1,19 @@
+/**
+* Assignment 4
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
-public class Shape1 {
+public class Shape1 
+{
 	protected Vector2d position;
 	private double r;
 	private Color col;
-	// add constructor, and required methods.
 
 	public Shape1(double x, double y, double r)
 	{
@@ -30,6 +36,9 @@ public class Shape1 {
 		g2.fill(ellipse);
 	}
 
+	/**
+	* Getter for the x, y, r values
+	*/
 	public double getPositionInfo(int option)
 	{
 		switch (option)
@@ -49,6 +58,9 @@ public class Shape1 {
 		return col;
 	}
 
+	/**
+	* Setter for the x, y and r values
+	*/
 	public void setPositionInfo(int option, double value)
 	{
 		switch (option)
