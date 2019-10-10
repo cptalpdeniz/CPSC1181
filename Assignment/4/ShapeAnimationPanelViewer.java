@@ -12,7 +12,7 @@ public class ShapeAnimationPanelViewer
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		MyTimer comp = new MyTimer();
+		ShapeAnimationPanel comp = new ShapeAnimationPanel();
 		frame.add(comp);
 		frame.setVisible(true);
 	}

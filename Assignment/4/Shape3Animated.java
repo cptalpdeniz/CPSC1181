@@ -97,7 +97,7 @@ public class Shape3Animated extends Shape3
 			for (int i = index + 1; i < 15; i++) 
 			{
 
-				var shapeElement = MyTimer.shapes.get(i);
+				var shapeElement = ShapeAnimationPanel.shapes.get(i);
 
 				if (isColliding(shapeElement))
 				{

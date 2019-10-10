@@ -8,7 +8,7 @@
 	/**
 	* 
 	*/
-	public class Vector2d 
+public class Vector2d 
 {
 	/**
 	* Vector2d class represents the 2-directional Vector 
