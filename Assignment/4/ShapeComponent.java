@@ -5,8 +5,6 @@ import javax.swing.JComponent;
 import java.util.Random;
 import java.util.ArrayList;
 
-/**
-*/
 public class ShapeComponent extends JComponent
 {  
 	public ArrayList<Shape3Animated> shapes; 

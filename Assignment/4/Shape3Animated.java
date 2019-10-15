@@ -1,9 +1,3 @@
-/**
-* Assignment 4
-* @author Alp Deniz Senyurt
-* Student ID: 100342433
-* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
-*/
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -88,8 +82,6 @@ public class Shape3Animated extends Shape3
 		return distSqr < ((hitboxRadius + shape1.hitboxRadius) * (hitboxRadius + shape1.hitboxRadius));
 	}
 
-	//moves the x or y coordinates of the shape based on direction 
-	//and velocity
 	public void move(int index)
 	{  
 		if (isColliding())
@@ -135,10 +127,6 @@ public class Shape3Animated extends Shape3
 				double im1 = 1 / hitboxRadius; //since there is no mass involved, I'm using the radius here
 				double im2 = 1 / shapeElement.hitboxRadius;
 
-				//push or pull them apart
-				//position = position.add(mtd.multiply(im1 / (im1 + im2)));
-				//shapeElement.position = shapeElement.position.subtract(mtd.multiply(im2 / (im1 + im2)));
-
 				//Calculating impact speed
 				Vector2d v = (this.velocity.subtract(shapeElement.velocity));
 				double vn = v.dot(mtd.normalize());
@@ -159,58 +147,6 @@ public class Shape3Animated extends Shape3
 		
 		position.setPositionInfo(0, position.getPositionInfo(0) + (velocity.getPositionInfo(0)*0.2));
 		position.setPositionInfo(1, position.getPositionInfo(1) + (velocity.getPositionInfo(1)*0.2));
-
-
-		//Commented since bonus questions requires different implementation and the code under will not be used for the correct implementation.
-		/*
-		switch (direction) 
-		{
-			case 0: //0 represents UP
-				if ((getPositionInfo(1) - 2 * getPositionInfo(2)) - velocity <= 0)
-				{
-					direction = 1;
-					setPositionInfo(1, getPositionInfo(1) + velocity);	
-				}
-				else
-				{
-					setPositionInfo(1, getPositionInfo(1) - velocity);	
-				}
-				break;
-			case 1: //1 represents DOWN
-				if ((getPositionInfo(1) + 2 * getPositionInfo(2)) + velocity >= 700)
-				{
-					direction = 0;
-					setPositionInfo(1, getPositionInfo(1) - velocity);  
-				}
-				else
-				{
-					setPositionInfo(1, getPositionInfo(1) + velocity);
-				}
-				break;
-			case 2: //2 represents LEFT
-				if ((getPositionInfo(0) - 2 * getPositionInfo(2)) - velocity <= 0)
-				{
-					direction = 3;
-					setPositionInfo(0, getPositionInfo(0) + velocity);	
-				}
-				else 
-				{
-					setPositionInfo(0, getPositionInfo(0) - velocity);	
-				}
-				break;
-			case 3: //3 represents RIGHT
-				if ((getPositionInfo(0) + 2 * getPositionInfo(2)) + velocity >= 1000)
-				{
-					direction = 2;
-					setPositionInfo(0, getPositionInfo(0) - velocity);	
-				}
-				else
-				{
-					setPositionInfo(0, getPositionInfo(0) + velocity);
-				}
-				break;
-		}
-		*/
 	}
 
 	/**

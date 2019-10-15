@@ -1,9 +1,3 @@
-/**
-* Assignment 4
-* @author Alp Deniz Senyurt
-* Student ID: 100342433
-* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
-*/
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;

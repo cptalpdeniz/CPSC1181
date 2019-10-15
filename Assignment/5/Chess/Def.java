@@ -1,3 +1,9 @@
+/**
+* Assignment 5
+* @author Alp Deniz Senyurt
+* Student ID: 100342433
+* Self explanatory variables and parameters will not be documented as they are, "self-explanatory".
+*/
 public class Def
 {
 	// Colors:
@@ -29,6 +35,6 @@ public class Def
 	public static final String KNIGHT_WHITE ="image/knight_white.png";
 	public static final String QUEEN_BLACK ="image/queen_black.png";
 	public static final String QUEEN_WHITE ="image/queen_white.png";
-	public static final String ROCK_BLACK ="image/rock_black.png";
-	public static final String ROCK_WHITE ="image/rock_white.png";
+	public static final String ROOK_BLACK ="image/rook_black.png";
+	public static final String ROOK_WHITE ="image/rook_white.png";
 }	
