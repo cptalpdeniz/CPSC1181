@@ -18,6 +18,7 @@ public class Shape3Animated extends Shape3
 	private Vector2d velocity;  //a random velocity in pixel
 	protected double hitboxRadius; 
 
+
 	/**
 	* Constructor of the class, sets the position of the Shape3Animated using Vector2D class (from super(Shape1)).
 	* @param x
@@ -40,37 +41,36 @@ public class Shape3Animated extends Shape3
 	*/
 	public boolean isColliding()
 	{
-		var condition = false;
+		//var condition = false;
 		if (position.getPositionInfo(0) - hitboxRadius <= 0) //Left wall check check
 		{
 			position.setPositionInfo(0,hitboxRadius); //Place shape against edge
 			velocity.setPositionInfo(0,-(velocity.getPositionInfo(0))); //Reverse the direction 
 			velocity.setPositionInfo(1,velocity.getPositionInfo(1));
-			condition = true;
+			return true;
 		}
-		else if (position.getPositionInfo(0) + hitboxRadius >= 700) //Right wall check
+		else if (position.getPositionInfo(0) + hitboxRadius >= 1000) //Right wall check
 		{
-			position.setPositionInfo(0,700 - hitboxRadius);		//Place shape against edge
+			position.setPositionInfo(0,1000 - hitboxRadius);		//Place shape against edge
 			velocity.setPositionInfo(0,-(velocity.getPositionInfo(0))); //Reverse direction 
 			velocity.setPositionInfo(1,(velocity.getPositionInfo(1)));
-			condition = true;
+			return true;
 		}
-
 		else if (position.getPositionInfo(1) - hitboxRadius  <= 0) //Top wall check
 		{
 			position.setPositionInfo(1,hitboxRadius); //Place shape against edge
 			velocity.setPositionInfo(1,-(velocity.getPositionInfo(1))); //Reverse direction
 			velocity.setPositionInfo(0,(velocity.getPositionInfo(0)));
-			condition = true;
+			return true;
 		}
-		else if (position.getPositionInfo(1) + hitboxRadius >= 1000) //Bottom wall check
+		else if (position.getPositionInfo(1) + hitboxRadius >= 700) //Bottom wall check
 		{
-			position.setPositionInfo(1,1000 - hitboxRadius);		//Place shape against edge
+			position.setPositionInfo(1,700 - hitboxRadius);		//Place shape against edge
 			velocity.setPositionInfo(1,-(velocity.getPositionInfo(1)));    //Reverse direction
 			velocity.setPositionInfo(0,velocity.getPositionInfo(0));
-			condition = true;
+			return true;
 		}
-		return condition;
+		return false;
 	}
 
 	/**
@@ -85,75 +85,81 @@ public class Shape3Animated extends Shape3
 		var xPosDiff = getPositionInfo(0) - shape1.getPositionInfo(0);
 		var yPosDiff = getPositionInfo(1) - shape1.getPositionInfo(1);
 		var distSqr = (xPosDiff * xPosDiff) + (yPosDiff * yPosDiff);
-		return (distSqr < (hitboxRadius + shape1.hitboxRadius) * (hitboxRadius + shape1.hitboxRadius) * 2);
+		return distSqr < ((hitboxRadius + shape1.hitboxRadius) * (hitboxRadius + shape1.hitboxRadius));
 	}
 
 	//moves the x or y coordinates of the shape based on direction 
 	//and velocity
 	public void move(int index)
 	{  
-		if (!isColliding())
+		if (isColliding())
 		{
-			for (int i = index + 1; i < 15; i++) 
+			position.setPositionInfo(0, position.getPositionInfo(0) + (velocity.getPositionInfo(0)*0.2));
+			position.setPositionInfo(1, position.getPositionInfo(1) + (velocity.getPositionInfo(1)*0.2));
+			return;
+		}
+
+		for (int i = 0; i < 15; i++) 
+		{
+
+			if(i == index)
+				continue;
+
+			var shapeElement = ShapeAnimationPanel.shapes.get(i);
+
+			if (isColliding(shapeElement))
 			{
+				
+				Vector2d delta = (position.subtract(shapeElement.position));
+				double r = getPositionInfo(2) + shapeElement.getPositionInfo(2);
+				double distSquared = delta.dot(delta);
 
-				var shapeElement = ShapeAnimationPanel.shapes.get(i);
-
-				if (isColliding(shapeElement))
+				if ( false && distSquared > r * r) 
 				{
-					Vector2d delta = (position.subtract(shapeElement.position));
-					double r = getPositionInfo(2) + shapeElement.getPositionInfo(2);
-					double dist2 = delta.dot(delta);
-
-					if (dist2 > r*r) 
-					{
-						return;
-					}
-
-					double d = delta.getLength();
-
-					Vector2d mtd;
-					if (d != 0.0)
-					{
-						mtd = delta.multiply(((getPositionInfo(2) + shapeElement.getPositionInfo(2)) - d) / d); //minimum translation distance to push shapeElement. apart after intersecting
-					}	
-					else //Special case. shapes are exactly on top of eachother.  Don't want to divide by zero.
-					{
-						d = shapeElement.hitboxRadius + hitboxRadius - 1.0f;
-						delta = new Vector2d(shapeElement.hitboxRadius + hitboxRadius, 0.0);
-
-						mtd = delta.multiply(((hitboxRadius + shapeElement.hitboxRadius) - d) / d);
-					}
-
-					//resolve intersection 
-					double im1 = 1 / hitboxRadius; //since there is no mass involved, I'm using the radius here
-					double im2 = 1 / shapeElement.hitboxRadius;
-
-					//push or pull them apart
-					position = position.add(mtd.multiply(im1 / (im1 + im2)));
-					shapeElement.position = shapeElement.position.subtract(mtd.multiply(im2 / (im1 + im2)));
-
-					//Calculating impact speed
-					Vector2d v = (this.velocity.subtract(shapeElement.velocity));
-					double vn = v.dot(mtd.normalize());
-
-					//sphere intersecting but moving away from each other already
-					if (vn > 0.0) 
-						return;
-
-					//calculating the impulse of the collision
-					double k = ( -1.0f * vn) / (im1 + im2); 
-					Vector2d impulse = mtd.multiply(k);
-
-					//Calculates the change in momentum
-					this.velocity = this.velocity.add(impulse.multiply(im1));
-					shapeElement.velocity = shapeElement.velocity.subtract(impulse.multiply(im2));
-
+					continue;
 				}
+
+				double d = delta.getLength();
+
+				Vector2d mtd;
+				if (d != 0.0)
+				{
+					mtd = delta.multiply(((getPositionInfo(2) + shapeElement.getPositionInfo(2)) - d) / d); //minimum translation distance to push shapeElement. apart after intersecting
+				}	
+				else //Special case. shapes are exactly on top of eachother.  Don't want to divide by zero.
+				{
+					continue;
+				}
+
+				//resolve intersection 
+				double im1 = 1 / hitboxRadius; //since there is no mass involved, I'm using the radius here
+				double im2 = 1 / shapeElement.hitboxRadius;
+
+				//push or pull them apart
+				//position = position.add(mtd.multiply(im1 / (im1 + im2)));
+				//shapeElement.position = shapeElement.position.subtract(mtd.multiply(im2 / (im1 + im2)));
+
+				//Calculating impact speed
+				Vector2d v = (this.velocity.subtract(shapeElement.velocity));
+				double vn = v.dot(mtd.normalize());
+
+				//sphere intersecting but moving away from each other already
+				if (vn < 0.0) 
+					continue;
+
+				//calculating the impulse of the collision
+				double k = ( -1.0f * vn) / (im1 + im2); 
+				Vector2d impulse = mtd.multiply(k);
+
+				//Calculates the change in momentum
+				this.velocity = this.velocity.add(impulse.multiply(im1));
+				shapeElement.velocity = shapeElement.velocity.subtract(impulse.multiply(im2));
 			}
 		}
-		position.setPositionInfo(0, position.getPositionInfo(0) + (velocity.getPositionInfo(0)));
-		position.setPositionInfo(1, position.getPositionInfo(1) + (velocity.getPositionInfo(1)));
+		
+		position.setPositionInfo(0, position.getPositionInfo(0) + (velocity.getPositionInfo(0)*0.2));
+		position.setPositionInfo(1, position.getPositionInfo(1) + (velocity.getPositionInfo(1)*0.2));
+
 
 		//Commented since bonus questions requires different implementation and the code under will not be used for the correct implementation.
 		/*

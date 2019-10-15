@@ -59,7 +59,7 @@ public class ShapeAnimationPanel extends JComponent
 			}
 		}
 		
-		t = new Timer(1000 /* 1000 milliSecond*/, new TimerListener());
+		t = new Timer(10 /* 1000 milliSecond*/, new TimerListener());
 		t.start(); 
 	}
 
