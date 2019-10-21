@@ -1,4 +1,4 @@
-public class Cat
+public class Cat implements ISpeakable
 {
 	private String name;
 

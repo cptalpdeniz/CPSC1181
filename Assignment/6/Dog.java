@@ -1,4 +1,4 @@
-public class Dog
+public class Dog implements ISpeakable
 {
 	private String name;
 

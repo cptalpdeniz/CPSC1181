@@ -1,4 +1,4 @@
 interface ISpeakable
 {
-	
+	void speak();
 }
