@@ -34,11 +34,7 @@ public class ShapeAnimationPanel extends JComponent
 		//calling for timer method to start
 		startTimer();
 	}
-	
-
-	/*
-	This implementation is wrong. Since ActionEvent is listening to any differences in values between frames and there are so many changes happening at the same time, some calculations are not executed. Because of this, some shapes stop moving after collision and when the calculations are done, start moving again.
-	*/
+		
 	private void startTimer()
 	{
 		class TimerListener implements ActionListener
