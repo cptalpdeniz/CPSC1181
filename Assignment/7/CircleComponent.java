@@ -77,7 +77,9 @@ public class CircleComponent extends JComponent
 		}
 	}
 
-
+	/**
+	* Calculate the location of the circle according to the screen. HOWEVER, this approach is very primitive and would not actually alter the radius of the circles. Basically, it wouldn't keep the same screen ratio as it should be. I want to implement that but I'm way too busy with assignments, essays and midterms to implement it that way. Hopefully this is enough -Alp
+	*/
 	public void frameResizeCalculation(int width, int height)
 	{
 		var dX = width - CircleViewer.FRAME_WIDTH;
