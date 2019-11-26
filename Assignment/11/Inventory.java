@@ -1,4 +1,7 @@
 import java.util.*;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
+import java.util.Collections;
 
 public class Inventory 
 {
@@ -57,7 +60,7 @@ public class Inventory
 	*/
 	public int takeItem(String item_name, int n)
 	{
-		lock.lock()
+		lock.lock();
 		int unitsAvailable;
 		int unitsRemoved=-1;
 		if(inventory.containsKey(item_name))
@@ -80,7 +83,7 @@ public class Inventory
 
 	/** returns all items and number of the units available in the inventory that their available units is less than or equals to a threshold.
 	* @param threshold: the number of available units that are less than or equal to threshold
-	@ return list of the items and available units in following format: â€œ[item_name1 unitsAvailable] [item_name2 unitsAvailable] ...â€
+	* @return list of the items and available units in following format: [item_name1 unitsAvailable] [item_name2 unitsAvailable] ...
 	*/
 	public String getThreshold(int threshold)
 	{

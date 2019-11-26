@@ -7,7 +7,7 @@ public class InventoryServer implements Runnable
 	private Socket socket;
 	private Scanner in;
 	private PrintWriter out;
-	private Inventory Inventory;
+	private Inventory inventory;
 
 	public InventoryServer(Socket socket, Inventory inventory)
 	{
@@ -19,20 +19,24 @@ public class InventoryServer implements Runnable
 	{
 		try
 		{
-			try
-			{
-				in = new Scanner(socket.getInputStream());
-				out = new PrintWriter(socket.getOutputStream());
-				doService();
-			}
-			finally
-			{
-				s.close();
-			}
+			in = new Scanner(socket.getInputStream());
+			out = new PrintWriter(socket.getOutputStream());
+			doService();
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				socket.close();
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -50,6 +54,6 @@ public class InventoryServer implements Runnable
 	public void executeCommand(String command) throws IOException
 	{
 		int account = in.nextInt();
-
+		
 	}
 }
