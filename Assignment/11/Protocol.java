@@ -10,7 +10,6 @@ interface Protocol
 	public static final int TAKE_ITEM = 4;
 	public static final int GET_THRESHOLD = 5;
 	public static final int QUIT = 6;
-	public static final int INVALID = 7;
 	public static final int PORT = 10000;
 }
 

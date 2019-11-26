@@ -29,12 +29,12 @@ public class Client implements Runnable, Protocol
 					switch (response)
 					{
 						case Protocol.SUCCEED:
-						tempStr = "SUCCEED. ";
-						tempStr += "Number of items: " + in.readInt();
-						break;
+							tempStr = "Server responded with: SUCCEED. \n";
+							tempStr += "Number of items: " + in.readInt();
+							break;
 						case Protocol.FAILED:
-						tempStr = "FAILED!";
-						break;
+							tempStr = "Server responded with: FAILED!";
+							break;
 					}
 				}
 				catch (Exception e) { }
@@ -46,7 +46,7 @@ public class Client implements Runnable, Protocol
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			System.out.println("Error! Can't connect to the server.");
 		}
 	}
 
@@ -65,7 +65,7 @@ public class Client implements Runnable, Protocol
 						clientActions(Protocol.QUIT);
 						break;
 					}
-					clientActions(r.nextInt((7 - 2) + 1) + 2);
+					clientActions(r.nextInt((10 - 2) + 1) + 2); //adding randomization to sent 
 					Thread.sleep(r.nextInt((500 - 100) + 1) + 100); //random delay between 100-500 ms
 				}
 			}
@@ -120,23 +120,35 @@ public class Client implements Runnable, Protocol
 					out.writeInt(Protocol.QUIT);
 					out.flush();
 					serverConnectionClosed = (in.readInt() == 1) ? true : false;
+					break;
+				default:
+					out.writeInt(command);
+					out.flush();
+					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					break;
 			}
 		}
 		catch (IOException e)
 		{
 			System.out.println("Error with Input/Output stream!");
 		}
-
-		if (serverConnectionClosed)
+		finally
 		{
-			try
+			if (serverConnectionClosed)
 			{
-				socket.close();
-				System.out.println("Server connection closed successfully");
+				try
+				{
+					socket.close();
+					System.out.println("Server connection closed successfully");
+				}
+				catch (Exception e)
+				{
+					System.out.println("Error when closing the connection! Error is: " + e.toString());
+				}
 			}
-			catch (Exception e)
+			else
 			{
-				System.out.println("Error when closing the connection! Error is: " + e.toString());
+				System.out.println(readableResponse);
 			}
 		}
 	}
