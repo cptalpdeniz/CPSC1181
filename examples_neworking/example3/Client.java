@@ -1,34 +1,34 @@
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.*;
-
-	public class Client {
-		public static void main( String[] args )  throws IOException {
-		
-			Socket server = null;
-                
-			try {
-				server = new Socket( "localhost", 10000 );
-				OutputStream outS = server.getOutputStream( );
-				PrintWriter out = new PrintWriter(outS);
-				Scanner in = new Scanner(server.getInputStream());
-				for( int i = 0; i < 1000; i+=10 ){
-					out.println(i);
-					out.flush();
-					System.out.println(in.nextInt());
-					
-				}	
-				
-			}
-			catch( IOException e ) {
-				e.printStackTrace( );
-			}
-			finally {
-				server.close( );
-			}
-
+// Clinet side of one way connection
+public class Client  implements Protocol{
+	public static void main( String[] args )  throws IOException {
+	
+		Socket client = null;
+            
+		try {
+			client = new Socket( "localhost", 10000 );
+			OutputStream outS = client.getOutputStream( );
+			DataOutputStream out = new DataOutputStream(outS);
+			for( int i = 0; i < 20; i++ ){
+				out.writeInt(Protocol.DATA);
+				out.writeUTF("CPSC1181_"+i);
+				out.flush();
+			}	
+			out.writeInt(Protocol.END);  // terminate the connection
 		}
+		catch( IOException e ) {
+			System.out.println("Program terminated unexpectly!");
+		}
+		finally {
+			System.out.println("End of request");
+			client.close( );
+		}
+
 	}
+}
   
  

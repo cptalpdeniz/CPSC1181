@@ -1,39 +1,34 @@
-/*A socket is a type of file. A socket pair forms a communication channel.A server sets up a 
-ServerSocket and listens for clients to connect. When a client connects, the server accepts
-the new client on a new socket. The server keeps listening for new clients on the ServerSocket. 
-*/
-    /**
-    *    Socket Server to read bytes from a given port and print
-    */
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
-
-public class Server   {
+// Server side of one way connection
+public class Server implements Protocol{
    public static void main( String[] args )  throws IOException  {
 		ServerSocket serverSoc = null;
-		Socket server = null;
+		Socket client = null;
 		int number=0;
 		try {
 			serverSoc = new ServerSocket( 10000 );
-			System.out.println( "Server waiting for client data... " );
-			server = serverSoc.accept( );
-			Scanner in = new Scanner( server.getInputStream( ) );
+			System.out.println( "Server waiting for client ... " );
+			client = serverSoc.accept( );
 			System.out.println( "Client connected." );
-			while( in.hasNext()) {
-				System.out.println(in.next() );
+			DataInputStream in = new DataInputStream( client.getInputStream( ) );
+			int response=0;
+			
+			while(response!=Protocol.END) {
+				response = in.readInt();
+				if(response==Protocol.DATA)
+					System.out.println(in.readUTF() );
 			}	
 		}
-              
 		catch( IOException e ){
-			e.printStackTrace( );
+			System.out.println("Program terminated unexpectly!");
 		}
 		finally{
-			server.close( );
-			serverSoc.close( );
+			System.out.println("closing connection");
+			client.close();  // this may also throws exception
+			serverSoc.close();
 		}
 	}
 }	

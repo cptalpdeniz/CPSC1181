@@ -1,6 +1,6 @@
 import java.io.InputStream;
-import java.io.IOException;
 import java.io.OutputStream;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -27,8 +27,8 @@ public class WebGet
       }
       else
       {
-         System.out.println("Getting / from my computer");
          host = "google.com";
+         System.out.println("Getting / from my "+host);
          resource = "/";
       }
 

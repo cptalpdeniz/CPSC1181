@@ -36,7 +36,7 @@ public class InventoryServer implements Runnable
 		}
 	}
 
-	public void doService()
+	public void doService() throws IOException
 	{
 		if (!in.hasNext()) 
 			return;
@@ -47,8 +47,9 @@ public class InventoryServer implements Runnable
 			executeCommand(command);
 	}
 
-	public void executeCommand(String command)
+	public void executeCommand(String command) throws IOException
 	{
-		
+		int account = in.nextInt();
+
 	}
 }

@@ -1,51 +1,37 @@
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.DataInputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.io.DataOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
+// Clinet side of one way connection
+public class Client implements Protocol{
+	public static void main( String[] args )  throws IOException {
+	
+		Socket client = null;
+            
+		try {
+			client = new Socket( "localhost", 10000 );
+			DataOutputStream out = new DataOutputStream(client.getOutputStream( ));
+			DataInputStream in = new DataInputStream(client.getInputStream( ));
 
-/**
-*   This program tests the bank server.
-*/
-public class Client
-{
-	public static void main(String[] args) throws IOException
-	{
-		final int SBAP_PORT = 18888;
-		Socket s = new Socket("localhost", SBAP_PORT);
-		InputStream instream = s.getInputStream();
-		OutputStream outstream = s.getOutputStream();
-		Scanner in = new Scanner(instream);
-		PrintWriter out = new PrintWriter(outstream); 
+			for( int i = 1; i <= 20; i++ ){
+				out.writeInt(Protocol.NUMBER);
+				out.writeInt(i);
+				out.flush();
+				if(in.readInt()==Protocol.RESULT)
+					System.out.println(in.readInt());
+			}	
+			out.writeInt(Protocol.QUIT);
+		}
+		catch( IOException e ) {
+			System.out.println("Program terminated unexpectly!");
+		}
+		finally {
+			System.out.println("End of request");
+			client.close( );
+		}
 
-		System.out.println("Please enter a command: ");
-		Scanner scanner = new Scanner(System.in);
-		var command = scanner.nextLine();
-		//String command = "DEPOSIT 3 1000\n";
-		//System.out.print("Sending: " + command);
-		out.print(command);
-		out.flush();
-		String response = in.nextLine();
-		System.out.println("Receiving: " + response);
-
-		/*command = "WITHDRAW 3 500\n";
-		System.out.print("Sending: " + command);
-		out.print(command);
-		out.flush();
-		response = in.nextLine();
-		System.out.println("Receiving: " + response);
-
-		command = "QUIT\n";
-		System.out.print("Sending: " + command);
-		out.print(command);
-		out.flush();
-*/
-		s.close();
 	}
 }
-
-
-
-
-
+  
+ 
