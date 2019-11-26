@@ -5,5 +5,5 @@ import java.lang.FunctionalInterface;
 public interface ProtocolFunctional
 {
 	//CONVERT RESPONSE TO STRING 
-	String m_serverResponse(int response, DataInputStream in);	
+	String m_serverResponse(int command, int response, DataInputStream in);	
 }

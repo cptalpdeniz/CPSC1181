@@ -22,7 +22,7 @@ public class Client implements Runnable, Protocol
 	{	
 		try
 		{
-			protocol = (int response, DataInputStream in) -> {
+			protocol = (int command, int response, DataInputStream in) -> {
 				String tempStr = "";
 				try
 				{
@@ -30,7 +30,20 @@ public class Client implements Runnable, Protocol
 					{
 						case Protocol.SUCCEED:
 							tempStr = "Server responded with: SUCCEED. \n";
-							tempStr += "Number of items: " + in.readInt();
+							switch (command)
+							{
+								case Protocol.ADD_ITEM:
+									tempStr += "Item has been added successfully.";
+									break;
+								case Protocol.CHECK_ITEM:
+									tempStr += "The inventory has " + in.readInt() + " number of this item.";
+									break;
+								case Protocol.TAKE_ITEM:
+									tempStr += in.readInt() + " items has been removed from the inventory"; 
+									break;
+								case Protocol.GET_THRESHOLD:
+									tempStr += "Items under this threshold are: " + in.readUTF();
+							}
 							break;
 						case Protocol.FAILED:
 							tempStr = "Server responded with: FAILED!";
@@ -85,6 +98,7 @@ public class Client implements Runnable, Protocol
 		Random rand = new Random();
 		String readableResponse = "";
 		boolean serverConnectionClosed = false;
+		var tempItem = ListInventory.list[rand.nextInt(7)];
 
 		try
 		{
@@ -92,29 +106,34 @@ public class Client implements Runnable, Protocol
 			{
 				case Protocol.ADD_ITEM:
 					out.writeInt(Protocol.ADD_ITEM);
-					out.writeUTF(ListInventory.list[rand.nextInt(7)]);
+					out.writeUTF(tempItem);
 					out.writeInt(rand.nextInt(30));
 					out.flush();
-					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					System.out.println("Sending ADD_ITEM command for " + tempItem);
+					readableResponse = protocol.m_serverResponse(Protocol.ADD_ITEM, in.readInt(), in);
 					break;
 				case Protocol.CHECK_ITEM:
 					out.writeInt(Protocol.CHECK_ITEM);
-					out.writeUTF(ListInventory.list[rand.nextInt(7)]);
+					out.writeUTF(tempItem);
 					out.flush();
-					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					System.out.println("Sending CHECK_ITEM command for " + tempItem);
+					readableResponse = protocol.m_serverResponse(Protocol.CHECK_ITEM, in.readInt(), in);
 					break;
 				case Protocol.TAKE_ITEM:
 					out.writeInt(Protocol.TAKE_ITEM);
-					out.writeUTF(ListInventory.list[rand.nextInt(7)]);
+					out.writeUTF(tempItem);
 					out.writeInt(rand.nextInt(5));
 					out.flush();
-					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					System.out.println("Sending TAKE_ITEM command for " + tempItem);
+					readableResponse = protocol.m_serverResponse(Protocol.TAKE_ITEM, in.readInt(), in);
 					break;
 				case Protocol.GET_THRESHOLD:
+					var tempInt = rand.nextInt(6);
 					out.writeInt(Protocol.GET_THRESHOLD);
-					out.writeInt(rand.nextInt(6));
+					out.writeInt(tempInt);
 					out.flush();
-					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					System.out.println("Sending GET_THRESHOLD command for number of " + tempInt);
+					readableResponse = protocol.m_serverResponse(Protocol.GET_THRESHOLD, in.readInt(), in);
 					break;
 				case Protocol.QUIT:
 					out.writeInt(Protocol.QUIT);
@@ -124,7 +143,7 @@ public class Client implements Runnable, Protocol
 				default:
 					out.writeInt(command);
 					out.flush();
-					readableResponse = protocol.m_serverResponse(in.readInt(), in);
+					readableResponse = protocol.m_serverResponse(7, in.readInt(), in);
 					break;
 			}
 		}
