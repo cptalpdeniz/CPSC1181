@@ -33,20 +33,20 @@ public class Client implements Runnable, Protocol
 							switch (command)
 							{
 								case Protocol.ADD_ITEM:
-									tempStr += "Item has been added successfully.";
+									tempStr += "Item has been added successfully." + "\n";
 									break;
 								case Protocol.CHECK_ITEM:
-									tempStr += "The inventory has " + in.readInt() + " number of this item.";
+									tempStr += "The inventory has " + in.readInt() + " number of this item." + "\n";
 									break;
 								case Protocol.TAKE_ITEM:
-									tempStr += in.readInt() + " items has been removed from the inventory"; 
+									tempStr += in.readInt() + " items has been removed from the inventory" + "\n";
 									break;
 								case Protocol.GET_THRESHOLD:
-									tempStr += "Items under this threshold are: " + in.readUTF();
+									tempStr += "Items under this threshold are: " + in.readUTF() + "\n";
 							}
 							break;
 						case Protocol.FAILED:
-							tempStr = "Server responded with: FAILED!";
+							tempStr = "Server responded with: FAILED!\n";
 							break;
 					}
 				}
@@ -66,19 +66,21 @@ public class Client implements Runnable, Protocol
 	public void run()
 	{
 		Random r = new Random();
+		
+		outerLoop: 
 		while (! Thread.currentThread().isInterrupted())
 		{
 			try
 			{
-				var count = r.nextInt((20 - 10) + 1) + 10; //random number of requests between 10-20. nth command after 10th command will be QUIT command. However on the final iteration command will always be QUIT
+				var count = (r.nextInt((20 - 10) + 1) + 10); //random number of requests between 10-20. nth command after 10th command will be QUIT command. However on the final iteration command will always be QUIT
 				for (int i = 0; i < count; i++)
 				{
-					if (i - 1 == count || i >= 10 && r.nextBoolean())
+					if (i == count - 1)
 					{
 						clientActions(Protocol.QUIT);
-						break;
+						break outerLoop;
 					}
-					clientActions(r.nextInt((10 - 2) + 1) + 2); //adding randomization to sent 
+					clientActions(r.nextInt((5 - 2) + 1) + 2); //adding randomization to sent 
 					Thread.sleep(r.nextInt((500 - 100) + 1) + 100); //random delay between 100-500 ms
 				}
 			}
@@ -136,9 +138,10 @@ public class Client implements Runnable, Protocol
 					readableResponse = protocol.m_serverResponse(Protocol.GET_THRESHOLD, in.readInt(), in);
 					break;
 				case Protocol.QUIT:
+					System.out.println("Sending QUIT command to server.");
 					out.writeInt(Protocol.QUIT);
 					out.flush();
-					serverConnectionClosed = (in.readInt() == 1) ? true : false;
+					serverConnectionClosed = (in.readInt() == Protocol.SUCCEED) ? true : false;
 					break;
 				default:
 					out.writeInt(command);
@@ -158,7 +161,7 @@ public class Client implements Runnable, Protocol
 				try
 				{
 					socket.close();
-					System.out.println("Server connection closed successfully");
+					System.out.println("Disconnected from server");
 				}
 				catch (Exception e)
 				{

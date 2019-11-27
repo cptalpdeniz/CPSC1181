@@ -1,8 +1,6 @@
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.Lock;
-import java.util.Collections;
-
 public class Inventory 
 {
 
